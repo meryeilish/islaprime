@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "pack:vps": "powershell -ExecutionPolicy Bypass -File scripts/pack-vps.ps1"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.7",

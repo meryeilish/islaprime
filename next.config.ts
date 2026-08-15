@@ -1,7 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // Paquete listo para VPS: .next/standalone (sin copiar todo node_modules)
+  output: "standalone",
 };
 
 export default nextConfig;
