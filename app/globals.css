@@ -1,0 +1,153 @@
+@import "tailwindcss";
+
+:root {
+  --background: #050505;
+  --foreground: #f4f4f5;
+  --accent: #dc2626;
+  --accent-glow: rgba(220, 38, 38, 0.35);
+  --surface: rgba(255, 255, 255, 0.04);
+  --border: rgba(255, 255, 255, 0.08);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+::selection {
+  background: rgba(220, 38, 38, 0.35);
+  color: #fff;
+}
+
+@keyframes float-particle {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 0.35;
+  }
+  50% {
+    transform: translateY(-18px) scale(1.1);
+    opacity: 0.8;
+  }
+}
+
+@keyframes scroll-line {
+  0% {
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+  50% {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+  51% {
+    transform: scaleY(1);
+    transform-origin: bottom;
+  }
+  100% {
+    transform: scaleY(0);
+    transform-origin: bottom;
+  }
+}
+
+.animate-scroll-line {
+  animation: scroll-line 2s ease-in-out infinite;
+}
+
+/* ---------------------------------------------------------------- */
+/* Mapa Gateway (Leaflet)                                            */
+/* ---------------------------------------------------------------- */
+
+.leaflet-container {
+  background: #04131e;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  outline: none;
+}
+
+.gw-divicon {
+  background: transparent;
+  border: none;
+}
+
+/* Etiquetas de zona/agua: texto centrado sobre la coordenada */
+.gw-label {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.92);
+  text-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.95),
+    0 0 10px rgba(0, 0, 0, 0.8);
+  pointer-events: none;
+}
+
+.gw-label--large {
+  font-size: 15px;
+  letter-spacing: 0.22em;
+}
+
+.gw-label--small {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.gw-label--water {
+  color: rgba(125, 211, 252, 0.95);
+  font-style: italic;
+}
+
+/* Marcadores de punto de interés */
+.gw-poi {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(0, 0, 0, 0.78);
+  font-size: 14px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.gw-poi:hover {
+  transform: translate(-50%, -50%) scale(1.15);
+  border-color: rgba(248, 113, 113, 0.8);
+}
+
+/* Tooltips oscuros */
+.gw-tooltip {
+  background: rgba(0, 0, 0, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+}
+
+.gw-tooltip::before {
+  display: none;
+}
