@@ -1,0 +1,44 @@
+{
+  "name": "islaprime",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "prisma generate && next build",
+    "start": "next start",
+    "lint": "eslint",
+    "postinstall": "prisma generate",
+    "db:push": "prisma db push",
+    "db:studio": "prisma studio",
+    "pack:vps": "powershell -ExecutionPolicy Bypass -File scripts/pack-vps.ps1",
+    "deploy:slim": "powershell -ExecutionPolicy Bypass -File scripts/deploy-slim.ps1"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.14.0",
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.7.0",
+    "jose": "^6.2.9",
+    "leaflet": "^1.9.4",
+    "livekit-client": "^2.21.0",
+    "livekit-server-sdk": "^2.17.0",
+    "next": "16.2.12",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "react-leaflet": "^5.0.0",
+    "react-zoom-pan-pinch": "^4.0.3",
+    "three": "^0.185.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/leaflet": "^1.9.22",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@types/three": "^0.185.4",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.12",
+    "prisma": "^6.14.0",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}

@@ -1,0 +1,64 @@
+name: Deploy slim to note
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "app/**"
+      - "lib/**"
+      - "prisma/**"
+      - "public/**"
+      - "package.json"
+      - "package-lock.json"
+      - "next.config.ts"
+      - "scripts/**"
+
+jobs:
+  build-artifact:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Prisma generate
+        run: npx prisma generate
+        env:
+          DATABASE_URL: file:./data/ci.db
+
+      - name: Build standalone
+        run: npm run build
+        env:
+          DATABASE_URL: file:./data/ci.db
+          AUTH_SECRET: ci-build-secret-not-for-prod-12
+
+      - name: Pack slim folder
+        shell: pwsh
+        run: |
+          $out = "islaprime-web-artifact"
+          New-Item -ItemType Directory -Force -Path $out | Out-Null
+          Copy-Item -Recurse .next/standalone/* $out/
+          New-Item -ItemType Directory -Force -Path "$out/.next/static" | Out-Null
+          Copy-Item -Recurse .next/static/* "$out/.next/static/"
+          if (Test-Path public) {
+            New-Item -ItemType Directory -Force -Path "$out/public" | Out-Null
+            Get-ChildItem public | Where-Object { $_.Name -notin @("models","videos","env") } | ForEach-Object {
+              Copy-Item -Recurse $_.FullName (Join-Path "$out/public" $_.Name)
+            }
+          }
+          New-Item -ItemType Directory -Force -Path "$out/prisma/data" | Out-Null
+          Copy-Item .env.example "$out/.env.example" -ErrorAction SilentlyContinue
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: islaprime-web-slim
+          path: islaprime-web-artifact
+          retention-days: 14
